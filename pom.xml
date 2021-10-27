@@ -186,7 +186,7 @@
                         <!-- MainClass in mainfest make a executable jar -->
                         <archive>
                             <manifest>
-                                <mainClass>com.dongao.SparkEntry</mainClass>
+                                <mainClass>org.apache.spark.SparkEntrance</mainClass>
                             </manifest>
                         </archive>
 
