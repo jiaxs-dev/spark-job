@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.common.JobConsts;
 import org.apache.spark.common.SparkAbstractJob;
-import org.apache.spark.common.config.CustomProperties;
-import org.apache.spark.common.jdbc.JdbcConsts;
 
 import java.util.HashMap;
 import java.util.Map;
