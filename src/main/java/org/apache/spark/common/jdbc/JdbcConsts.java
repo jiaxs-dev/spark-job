@@ -1,10 +1,6 @@
 package org.apache.spark.common.jdbc;
 
 public class JdbcConsts {
-    /**
-     * 数据库名称：default
-     */
-    public static final String DB_NAME_DEFAULT = "default";
 
     public static final String DB_NAME_BEACON = "beacon";
     // -------------------------- db type ---------------------------------

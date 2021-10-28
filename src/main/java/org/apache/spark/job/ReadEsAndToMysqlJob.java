@@ -47,20 +47,14 @@ public class ReadEsAndToMysqlJob extends SparkAbstractJob implements Serializabl
     }
 
     @Override
-    protected void execute(SparkSession sparkSession, Map<String, String> args) throws Exception {
+    protected void execute(SparkSession sparkSession, Map<String, String> args) {
         JavaSparkContext javaSparkContext = new JavaSparkContext(sparkSession.sparkContext());
         JavaRDD<String> javaRDD = JavaEsSpark.esJsonRDD(javaSparkContext,
                 "bdc_fe_log",
                 QueryBuilders.matchAllQuery().toString())
                 .values();
-        JavaRDD<BdcFeLog> bdcFeLogJavaRDD = javaRDD.map(new Function<String, BdcFeLog>() {
-            @Override
-            public BdcFeLog call(String s) {
-                BdcFeLog bdcFeLog = JSON.parseObject(s,BdcFeLog.class);
-                return  bdcFeLog;
-            }
-        });
-        Dataset<Row> bdcFeLogDataset = sparkSession.createDataFrame(bdcFeLogJavaRDD,BdcFeLog.class);
-        save2Mysql(bdcFeLogDataset,"big-data","bdc_fe_log");
+        JavaRDD<BdcFeLog> bdcFeLogJavaRDD = javaRDD.map((Function<String, BdcFeLog>) s -> JSON.parseObject(s, BdcFeLog.class));
+        Dataset<Row> bdcFeLogDataset = sparkSession.createDataFrame(bdcFeLogJavaRDD, BdcFeLog.class);
+        save2Mysql(bdcFeLogDataset, "beacon", "bdc_fe_log");
     }
 }

@@ -61,7 +61,7 @@ public abstract class SparkAbstractJob {
             // 执行具体任务
             execute(sparkSession, args);
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
             throw new RuntimeException("error execute " + this.getClass().getName(), e);
         } finally {
             if (sparkSession != null) {
@@ -128,6 +128,14 @@ public abstract class SparkAbstractJob {
         if (null == mode) {
             mode = SaveMode.Append; // 默认追加模式
         }
+        Properties properties = CustomProperties.JDBC.getProperties();
+        for (Object key : properties.keySet()) {
+            System.out.println(properties.getProperty(key.toString()));
+        }
+        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getDriverKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
+        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getUrlKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
+        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getUserKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
+        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getPasswdKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
         final DataFrameWriter<Row> option = df.write()
                 .format("jdbc")
                 .mode(mode)
@@ -160,7 +168,7 @@ public abstract class SparkAbstractJob {
      * @param mode      保存模式
      */
     protected void save2Clickhouse(Dataset<Row> df, String dbName, String tableName, SaveMode mode) {
-        if(null == mode){
+        if (null == mode) {
             mode = SaveMode.Append; // 默认追加模式
         }
         final DataFrameWriter<Row> option = df.write()
@@ -172,16 +180,15 @@ public abstract class SparkAbstractJob {
                 .option("user", CustomProperties.JDBC.getProperty(JdbcConsts.getUserKey(JdbcConsts.DB_TYPE_CLICKHOUSE, dbName)))
                 .option("password", CustomProperties.JDBC.getProperty(JdbcConsts.getPasswdKey(JdbcConsts.DB_TYPE_CLICKHOUSE, dbName)))
                 .option("numPartitions", 4)
-                .option("batchsize",200000) // default 1000
+                .option("batchsize", 200000) // default 1000
                 // 写mysql优化：配置numPartitions、batchsize，最关键的是url中配置rewriteBatchedStatements=true，即打开mysql的批处理能力
-                .option("isolationLevel", "NONE")
-                ;
+                .option("isolationLevel", "NONE");
 
-        log.info(dbName+"."+tableName+" 写入模式：" + mode);
+        log.info(dbName + "." + tableName + " 写入模式：" + mode);
         // 重写模式下，采用清空表的方式 ，注意，必须有drop的权限才可以，否则会一直报错没权限
-        if(mode == SaveMode.Overwrite) {
+        if (mode == SaveMode.Overwrite) {
             option.option("truncate", true).save();
-        }else {
+        } else {
             option.save();
         }
 
@@ -210,14 +217,14 @@ public abstract class SparkAbstractJob {
      * @param df        数据集
      * @param tableName 数据表名
      */
-    protected void save2Phoenix(Dataset<Row> df, String tableName) {
-        df.write()
-                .format("org.apache.phoenix.spark")
-                .mode("overwrite")
-                .option("table", tableName)
-                .option("zkUrl", CustomProperties.CONFIG.getProperty(DABIG_ZK_URL))
-                .save();
-    }
+//    protected void save2Phoenix(Dataset<Row> df, String tableName) {
+//        df.write()
+//                .format("org.apache.phoenix.spark")
+//                .mode("overwrite")
+//                .option("table", tableName)
+//                .option("zkUrl", CustomProperties.CONFIG.getProperty(DABIG_ZK_URL))
+//                .save();
+//    }
 
     /**
      * 将指定字符串时间转换为 org.joda.time.DateTime 类型

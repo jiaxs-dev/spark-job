@@ -25,7 +25,7 @@ public class ReadMysqlAndToHdfs extends SparkAbstractJob implements Serializable
 
     @Override
     protected void execute(SparkSession sparkSession, Map<String, String> args) throws Exception {
-        Dataset<Row> dataset = readFromMysql(sparkSession, "beacon", "da_app_page");
+        Dataset<Row> dataset = readFromMysql(sparkSession, "beacon", "bdc_fe_log");
 //        JavaRDD<JSONObject> javaRDD = dataset.toJavaRDD().map(row -> {
 //            DaAppPage daAppPage = new DaAppPage();
 //            daAppPage.setId(row.getAs("id"));
@@ -54,6 +54,6 @@ public class ReadMysqlAndToHdfs extends SparkAbstractJob implements Serializable
             return stringBuilder.toString();
         });
 
-        javaRDD.repartition(1).saveAsTextFile("hdfs://hdn1.dabig.com:8020/dwd/mysql/da_app_page.log");
+        javaRDD.repartition(1).saveAsTextFile("hdfs://n1.dabig.com:9000/ods/bdc_fe_log.log");
     }
 }

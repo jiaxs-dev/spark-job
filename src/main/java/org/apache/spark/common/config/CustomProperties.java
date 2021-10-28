@@ -21,14 +21,14 @@ public class CustomProperties {
     /**
      * 自定义配置根目录
      */
-    private static final String ROOT_PATH = "conf" + File.separator;
+//    private static final String ROOT_PATH = "conf" + File.separator;
 
     private Properties properties;
-    public static final CustomProperties CONFIG = new CustomProperties("config.properties");
+//    public static final CustomProperties CONFIG = new CustomProperties("config.properties");
     public static final CustomProperties JDBC = new CustomProperties("jdbc.properties");
 
     private CustomProperties(String confName) {
-        this.properties = loadProp(ROOT_PATH + confName);
+        this.properties = loadProp(confName);
     }
 
     /**

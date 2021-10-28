@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.common.JobConsts;
 import org.apache.spark.common.SparkAbstractJob;
+import org.apache.spark.common.config.CustomProperties;
+import org.apache.spark.common.jdbc.JdbcConsts;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,17 +20,21 @@ import java.util.Map;
 public class SparkEntrance {
 
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        String className = "";
+        String className = "org.apache.spark.job.ReadEsAndToMysqlJob";
         final Object o = Class.forName(className).newInstance();
         SparkAbstractJob abstractApplication = (SparkAbstractJob) o;
-        abstractApplication.execute(new HashMap<>(1));
+        Map<String, String> params = new HashMap<>(1);
+        params.put(JobConsts.ARGS_CLASS_NAME, "ReadEsAndToMysqlJob");
+
+        abstractApplication.execute(params);
     }
 
 //    public static void main(String[] args) throws Exception {
+//        long start = System.currentTimeMillis();
 //        log.info("SparkEntry args:" + StringUtils.join(args, " "));
 //        final Map<String, String> params = new HashMap<>();
 //        try {
-//            long start = System.currentTimeMillis();
+//
 //
 //            if (args.length < 1) {
 //                throw new IllegalArgumentException("className is required");
@@ -39,18 +45,19 @@ public class SparkEntrance {
 //                throw new IllegalArgumentException("className is required");
 //            }
 //            final String className = params.get(JobConsts.ARGS_CLASS_NAME);
-//            final Object o = Class.<SparkAbstractJob>forName(className).newInstance();
+//            final Object o = Class.forName(className).newInstance();
 //            if (!(o instanceof SparkAbstractJob)) {
 //                throw new IllegalArgumentException(className + " is not a subClass of SparkAbstractJob");
 //            }
 //            SparkAbstractJob abstractApplication = (SparkAbstractJob) o;
 //            abstractApplication.execute(params);
 //
-//            long end = System.currentTimeMillis();
+//
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        } finally {
-//
+//            long end = System.currentTimeMillis();
+//            log.info("this task cost {} ms",end-start);
 //        }
 //    }
 

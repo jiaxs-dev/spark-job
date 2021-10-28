@@ -17,7 +17,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <elastic.version>6.8.1</elastic.version>
-        <spark.version>2.3.0</spark.version>
         <spark.version>2.1.1</spark.version>
     </properties>
 
@@ -88,63 +87,77 @@
 
     </dependencies>
 
+    <!-- 项目变量三套环境 -->
     <profiles>
+        <!--开发环境 -->
         <profile>
             <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+            </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <deploy.type>dev</deploy.type>
-            </properties>
         </profile>
+        <!--测试环境 -->
         <profile>
             <id>test</id>
             <properties>
-                <deploy.type>test</deploy.type>
+                <profiles.active>test</profiles.active>
             </properties>
         </profile>
+        <!--生产环境 -->
         <profile>
-            <id>prod</id>
+            <id>pro</id>
             <properties>
-                <deploy.type>prod</deploy.type>
+                <profiles.active>pro</profiles.active>
             </properties>
         </profile>
     </profiles>
 
     <build>
-
         <resources>
-            <!-- 排除目录 -->
             <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>conf/dev/**</exclude>
-                    <exclude>conf/test/**</exclude>
-                    <exclude>conf/pro/**</exclude>
-                </excludes>
-            </resource>
-            <!-- 定制开发环境配置文件替换到指定conf目录 -->
-            <resource>
-                <directory>src/main/resources/conf/${profiles.active}</directory>
-                <targetPath>conf</targetPath>
+                <directory>src/main/resources/${profiles.active}</directory>
                 <includes>
                     <include>*.properties</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-            <!-- 定制开发环境配置文件替换到src/main/resources目录 -->
-            <resource>
-                <directory>src/main/resources/conf/${profiles.active}</directory>
-                <includes>
                     <include>core-site.xml</include>
                     <include>hdfs-site.xml</include>
-                    <!--          <include>hive-site.xml</include>-->
                 </includes>
-                <filtering>true</filtering>
             </resource>
         </resources>
+
+<!--        <resources>-->
+<!--            &lt;!&ndash; 排除目录 &ndash;&gt;-->
+<!--&lt;!&ndash;            <resource>&ndash;&gt;-->
+<!--&lt;!&ndash;                <directory>src/main/resources</directory>&ndash;&gt;-->
+<!--&lt;!&ndash;                <filtering>false</filtering>&ndash;&gt;-->
+<!--&lt;!&ndash;                <excludes>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <exclude>conf/dev/**</exclude>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <exclude>conf/test/**</exclude>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <exclude>conf/pro/**</exclude>&ndash;&gt;-->
+<!--&lt;!&ndash;                </excludes>&ndash;&gt;-->
+<!--&lt;!&ndash;            </resource>&ndash;&gt;-->
+<!--            &lt;!&ndash; 定制开发环境配置文件替换到指定conf目录 &ndash;&gt;-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources/conf/${profiles.active}</directory>-->
+<!--                <targetPath>conf</targetPath>-->
+<!--                <includes>-->
+<!--                    <include>*.properties</include>-->
+<!--                </includes>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
+<!--            &lt;!&ndash; 定制开发环境配置文件替换到src/main/resources目录 &ndash;&gt;-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources/conf/${profiles.active}</directory>-->
+<!--                <includes>-->
+<!--                    <include>core-site.xml</include>-->
+<!--                    <include>hdfs-site.xml</include>-->
+<!--                    &lt;!&ndash;          <include>hive-site.xml</include>&ndash;&gt;-->
+<!--                </includes>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
+<!--        </resources>-->
 
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
