@@ -18,11 +18,11 @@ import java.util.Map;
 public class SparkEntrance {
 
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        String className = "org.apache.spark.job.ReadEsAndToMysqlJob";
+        String className = "org.apache.spark.job.MysqlQueryJob";
         final Object o = Class.forName(className).newInstance();
         SparkAbstractJob abstractApplication = (SparkAbstractJob) o;
         Map<String, String> params = new HashMap<>(1);
-        params.put(JobConsts.ARGS_CLASS_NAME, "ReadEsAndToMysqlJob");
+        params.put(JobConsts.ARGS_CLASS_NAME, "MysqlQueryJob");
 
         abstractApplication.execute(params);
     }

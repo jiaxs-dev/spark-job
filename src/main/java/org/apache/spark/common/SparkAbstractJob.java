@@ -46,6 +46,7 @@ public abstract class SparkAbstractJob {
      * @param args 入参
      */
     public final void execute(Map<String, String> args) {
+
         log.info("Running " + this.getClass().getName() + " ，args：" + args);
         SparkSession sparkSession = null;
         try {
@@ -57,7 +58,7 @@ public abstract class SparkAbstractJob {
             }
             // 支持个性化conf设置
             setConf(sparkConf);
-            sparkSession = SparkSession.builder().config(sparkConf).getOrCreate();
+            sparkSession = SparkSession.builder().enableHiveSupport().config(sparkConf).getOrCreate();
             // 执行具体任务
             execute(sparkSession, args);
         } catch (Exception e) {
@@ -126,16 +127,9 @@ public abstract class SparkAbstractJob {
      */
     protected void save2Mysql(Dataset<Row> df, String dbName, String tableName, SaveMode mode) {
         if (null == mode) {
-            mode = SaveMode.Append; // 默认追加模式
+            // 默认追加模式
+            mode = SaveMode.Append;
         }
-        Properties properties = CustomProperties.JDBC.getProperties();
-        for (Object key : properties.keySet()) {
-            System.out.println(properties.getProperty(key.toString()));
-        }
-        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getDriverKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
-        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getUrlKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
-        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getUserKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
-        System.out.println(CustomProperties.JDBC.getProperty(JdbcConsts.getPasswdKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
         final DataFrameWriter<Row> option = df.write()
                 .format("jdbc")
                 .mode(mode)
@@ -169,7 +163,8 @@ public abstract class SparkAbstractJob {
      */
     protected void save2Clickhouse(Dataset<Row> df, String dbName, String tableName, SaveMode mode) {
         if (null == mode) {
-            mode = SaveMode.Append; // 默认追加模式
+            // 默认追加模式
+            mode = SaveMode.Append;
         }
         final DataFrameWriter<Row> option = df.write()
                 .format("jdbc")
@@ -180,7 +175,8 @@ public abstract class SparkAbstractJob {
                 .option("user", CustomProperties.JDBC.getProperty(JdbcConsts.getUserKey(JdbcConsts.DB_TYPE_CLICKHOUSE, dbName)))
                 .option("password", CustomProperties.JDBC.getProperty(JdbcConsts.getPasswdKey(JdbcConsts.DB_TYPE_CLICKHOUSE, dbName)))
                 .option("numPartitions", 4)
-                .option("batchsize", 200000) // default 1000
+                // default 1000
+                .option("batchsize", 200000)
                 // 写mysql优化：配置numPartitions、batchsize，最关键的是url中配置rewriteBatchedStatements=true，即打开mysql的批处理能力
                 .option("isolationLevel", "NONE");
 
@@ -209,6 +205,16 @@ public abstract class SparkAbstractJob {
         connectionProperties.put("password", CustomProperties.JDBC.getProperty(JdbcConsts.getPasswdKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
         connectionProperties.put("driver", CustomProperties.JDBC.getProperty(JdbcConsts.getDriverKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
         return sparkSession.read().jdbc(url, tableName, connectionProperties).select("*");
+    }
+
+    protected Properties mysqlConnectionProperties(String dbName) {
+        Properties connectionProperties = new Properties();
+        String url = CustomProperties.JDBC.getProperty(JdbcConsts.getUrlKey(JdbcConsts.DB_TYPE_MYSQL, dbName));
+        connectionProperties.put("user", CustomProperties.JDBC.getProperty(JdbcConsts.getUserKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
+        connectionProperties.put("password", CustomProperties.JDBC.getProperty(JdbcConsts.getPasswdKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
+        connectionProperties.put("driver", CustomProperties.JDBC.getProperty(JdbcConsts.getDriverKey(JdbcConsts.DB_TYPE_MYSQL, dbName)));
+        connectionProperties.put("url", url);
+        return connectionProperties;
     }
 
     /**

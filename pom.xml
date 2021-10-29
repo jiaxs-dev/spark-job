@@ -17,7 +17,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <elastic.version>6.8.1</elastic.version>
-        <spark.version>2.1.1</spark.version>
+        <spark.version>3.2.0</spark.version>
+        <hive.version>3.1.2</hive.version>
+        <hadoop.version>3.1.0</hadoop.version>
     </properties>
 
     <dependencies>
@@ -32,44 +34,49 @@
 
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.11</artifactId>
+            <artifactId>spark-core_2.13</artifactId>
             <version>${spark.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_2.11</artifactId>
+            <artifactId>spark-sql_2.13</artifactId>
             <version>${spark.version}</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch-spark-20 -->
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch-spark-20_2.11</artifactId>
-            <version>${elastic.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.spark</groupId>
-                    <artifactId>spark-core_2.11</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.spark</groupId>
-                    <artifactId>spark-sql_2.11</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.spark</groupId>
-                    <artifactId>spark-streaming_2.11</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.spark</groupId>
-                    <artifactId>spark-yarn_2.11</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
-            <version>${elastic.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch</groupId>-->
+<!--            <artifactId>elasticsearch-spark-30_2.12</artifactId>-->
+<!--            <version>7.15.1</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.spark</groupId>-->
+<!--                    <artifactId>spark-core_2.12</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.spark</groupId>-->
+<!--                    <artifactId>spark-sql_2.12</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.spark</groupId>-->
+<!--                    <artifactId>spark-streaming_2.12</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.spark</groupId>-->
+<!--                    <artifactId>spark-yarn_2.12</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.spark</groupId>-->
+<!--                    <artifactId>spark-yarn_2.12</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.elasticsearch</groupId>-->
+<!--            <artifactId>elasticsearch</artifactId>-->
+<!--            <version>${elastic.version}</version>-->
+<!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
@@ -84,6 +91,229 @@
             <version>1.16.20</version>
             <scope>provided</scope>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-exec -->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-exec</artifactId>
+            <version>${hive.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>antlr-runtime</artifactId>
+                    <groupId>org.antlr</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-lang</artifactId>
+                    <groupId>commons-lang</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-lang3</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>jackson-core</artifactId>-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                </exclusion>-->
+                <exclusion>
+                    <artifactId>joda-time</artifactId>
+                    <groupId>joda-time</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>commons-io</groupId>
+                </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>hadoop-common</artifactId>-->
+<!--                    <groupId>org.apache.hadoop</groupId>-->
+<!--                </exclusion>-->
+                <exclusion>
+                    <artifactId>metrics-core</artifactId>
+                    <groupId>io.dropwizard.metrics</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>snappy</artifactId>
+                    <groupId>org.iq80.snappy</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>metrics-json</artifactId>
+                    <groupId>io.dropwizard.metrics</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>metrics-jvm</artifactId>
+                    <groupId>io.dropwizard.metrics</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>re2j</artifactId>
+                    <groupId>com.google.re2j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>objenesis</artifactId>
+                    <groupId>org.objenesis</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>libthrift</artifactId>
+                    <groupId>org.apache.thrift</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-contrib -->
+        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-contrib -->
+        <dependency>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-contrib</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-hive_2.13</artifactId>
+            <version>${spark.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsr305</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>zookeeper</artifactId>
+                    <groupId>org.apache.zookeeper</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>httpclient</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>httpcore</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>RoaringBitmap</artifactId>
+                    <groupId>org.roaringbitmap</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>curator-recipes</artifactId>
+                    <groupId>org.apache.curator</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>scala-library</artifactId>
+                    <groupId>org.scala-lang</groupId>
+                </exclusion>
+<!--                <exclusion>-->
+<!--                    <artifactId>jackson-databind</artifactId>-->
+<!--                    <groupId>com.fasterxml.jackson.core</groupId>-->
+<!--                </exclusion>-->
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-compress</artifactId>
+                    <groupId>org.apache.commons</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>zookeeper</artifactId>
+                    <groupId>org.apache.zookeeper</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jsr305</artifactId>
+                    <groupId>com.google.code.findbugs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jackson-mapper-asl</artifactId>
+                    <groupId>org.codehaus.jackson</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jaxb-api</artifactId>
+                    <groupId>javax.xml.bind</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>commons-io</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-core</artifactId>
+            <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guice</artifactId>
+                    <groupId>com.google.inject</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>guice-servlet</artifactId>
+                    <groupId>com.google.inject.extensions</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>netty-all</artifactId>
+                    <groupId>io.netty</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-distcp</artifactId>
+            <version>${hadoop.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.12.0</version>
+        </dependency>
+
+
+
 
     </dependencies>
 
@@ -123,41 +353,42 @@
                     <include>*.properties</include>
                     <include>core-site.xml</include>
                     <include>hdfs-site.xml</include>
+                    <include>hive-site.xml</include>
                 </includes>
             </resource>
         </resources>
 
-<!--        <resources>-->
-<!--            &lt;!&ndash; 排除目录 &ndash;&gt;-->
-<!--&lt;!&ndash;            <resource>&ndash;&gt;-->
-<!--&lt;!&ndash;                <directory>src/main/resources</directory>&ndash;&gt;-->
-<!--&lt;!&ndash;                <filtering>false</filtering>&ndash;&gt;-->
-<!--&lt;!&ndash;                <excludes>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <exclude>conf/dev/**</exclude>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <exclude>conf/test/**</exclude>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <exclude>conf/pro/**</exclude>&ndash;&gt;-->
-<!--&lt;!&ndash;                </excludes>&ndash;&gt;-->
-<!--&lt;!&ndash;            </resource>&ndash;&gt;-->
-<!--            &lt;!&ndash; 定制开发环境配置文件替换到指定conf目录 &ndash;&gt;-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources/conf/${profiles.active}</directory>-->
-<!--                <targetPath>conf</targetPath>-->
-<!--                <includes>-->
-<!--                    <include>*.properties</include>-->
-<!--                </includes>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
-<!--            &lt;!&ndash; 定制开发环境配置文件替换到src/main/resources目录 &ndash;&gt;-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources/conf/${profiles.active}</directory>-->
-<!--                <includes>-->
-<!--                    <include>core-site.xml</include>-->
-<!--                    <include>hdfs-site.xml</include>-->
-<!--                    &lt;!&ndash;          <include>hive-site.xml</include>&ndash;&gt;-->
-<!--                </includes>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
-<!--        </resources>-->
+        <!--        <resources>-->
+        <!--            &lt;!&ndash; 排除目录 &ndash;&gt;-->
+        <!--&lt;!&ndash;            <resource>&ndash;&gt;-->
+        <!--&lt;!&ndash;                <directory>src/main/resources</directory>&ndash;&gt;-->
+        <!--&lt;!&ndash;                <filtering>false</filtering>&ndash;&gt;-->
+        <!--&lt;!&ndash;                <excludes>&ndash;&gt;-->
+        <!--&lt;!&ndash;                    <exclude>conf/dev/**</exclude>&ndash;&gt;-->
+        <!--&lt;!&ndash;                    <exclude>conf/test/**</exclude>&ndash;&gt;-->
+        <!--&lt;!&ndash;                    <exclude>conf/pro/**</exclude>&ndash;&gt;-->
+        <!--&lt;!&ndash;                </excludes>&ndash;&gt;-->
+        <!--&lt;!&ndash;            </resource>&ndash;&gt;-->
+        <!--            &lt;!&ndash; 定制开发环境配置文件替换到指定conf目录 &ndash;&gt;-->
+        <!--            <resource>-->
+        <!--                <directory>src/main/resources/conf/${profiles.active}</directory>-->
+        <!--                <targetPath>conf</targetPath>-->
+        <!--                <includes>-->
+        <!--                    <include>*.properties</include>-->
+        <!--                </includes>-->
+        <!--                <filtering>true</filtering>-->
+        <!--            </resource>-->
+        <!--            &lt;!&ndash; 定制开发环境配置文件替换到src/main/resources目录 &ndash;&gt;-->
+        <!--            <resource>-->
+        <!--                <directory>src/main/resources/conf/${profiles.active}</directory>-->
+        <!--                <includes>-->
+        <!--                    <include>core-site.xml</include>-->
+        <!--                    <include>hdfs-site.xml</include>-->
+        <!--                    &lt;!&ndash;          <include>hive-site.xml</include>&ndash;&gt;-->
+        <!--                </includes>-->
+        <!--                <filtering>true</filtering>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
 
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
