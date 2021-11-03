@@ -22,7 +22,11 @@
         <value>2</value>
     </property>
     <property>
+        <name>dfs.namenode.http-address</name>
+        <value>hdn1.dabig.com:9870</value>
+    </property>
+    <property>
         <name>dfs.namenode.secondary.http-address</name>
-        <value>n1.dabig.com:50090</value>
+        <value>hdn2.dabig.com:9870</value>
     </property>
 </configuration>

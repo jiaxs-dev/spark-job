@@ -19,10 +19,11 @@
 <configuration>
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://n1.dabig.com:9000</value>
+        <value>hdfs://hdn1.dabig.com:9000</value>
     </property>
     <property>
         <name>hadoop.tmp.dir</name>
-        <value>/usr/data/hadoop/tmp</value>
+        <value>/usr/local/src/hadoop-3.0.0/tmp</value>
     </property>
+
 </configuration>

@@ -30,7 +30,7 @@
     </property>
    <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:mysql://172.16.206.30:3306/hive?&amp;useSSL=false</value>
+        <value>jdbc:mysql://172.16.206.30:3306/hive?&amp;useSSL=false&amp;createDatabaseIfNotExist=true</value>
     </property>
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>

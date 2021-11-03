@@ -39,7 +39,7 @@ public class ReadHdfsAndToMysql extends SparkAbstractJob implements Serializable
 //        save2Mysql(bdcFeLogDataset, "big-data", "da_app_page");
 
         log.info("开始读取hdfs文件");
-        JavaRDD<String> javaRDD = sparkSession.sparkContext().textFile("hdfs://n1.dabig.com:9000/hello.text", 1).toJavaRDD();
+        JavaRDD<String> javaRDD = sparkSession.sparkContext().textFile("hdfs://hdn1.dabig.com:9000/ods/bdc_fe_log.log", 1).toJavaRDD();
         log.info("读取完毕");
         javaRDD.foreach(e -> log.info(e));
         log.info("任务结束");
